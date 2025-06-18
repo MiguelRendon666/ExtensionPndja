@@ -4,7 +4,31 @@
   <head>
     <title>Azure Menubar Extension</title>
     <style>
-      body { font-family: Arial, sans-serif; min-width: 200px; padding: 10px; }
+      body {
+          font-family: Arial, sans-serif; min-width: 200px; padding: 10px;
+          text-align: center;
+          background-color: #121d27;
+          color: white;
+      }
+
+      h3 {
+        
+      }
+
+      input {
+          width: 100%;
+          padding: 1rem;
+      }
+
+      button {
+          width: 100%;
+          border-radius: 1rem;
+          padding: .5rem;
+          border: 2px solid white;
+          background-color: transparent;
+          color: white;
+          margin-top: 1rem;
+      }
     </style>
   </head>
   <body>
@@ -12,6 +36,7 @@
     <input type="file" id="gif-input" accept="image/gif">
     <button id="open-azure-portal-button">Actualiza Imagen</button>
     <button id="clear-azure-portal-button">Borra Imagen</button>
+    <h3><span id="azure-bar-status-text">Hola</span></h3>
     <script src="popup.js"></script>
   </body>
 </html>

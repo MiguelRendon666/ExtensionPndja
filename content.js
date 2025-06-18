@@ -1,21 +1,16 @@
 function insertGIF(imageUrl) {
-    const menubar = document.querySelector('[role="menubar"].custom-scrollbar') ?? document.querySelector('[role="navigation"] .custom-scrollbar');
-    // const allImages = document.querySelectorAll('.using-image');
+    const menubar = document.querySelector('[role="menubar"].custom-scrollbar');
     const statusText = document.getElementById('azure-bar-status-text');
     if (menubar && !document.querySelector('#my-custom-gif')) {
         const img = document.createElement('img');
         img.id = 'my-custom-gif';
         img.src = imageUrl;
-        img.width = 250;
-        img.height = 250;
+        img.style.width = '100%';
         menubar.appendChild(img);
+        if (statusText) {
+            statusText.textContent = 'GIF mostrandose';
+        }
     }
-
-    // if(allImages.length > 0) {
-    //     allImages.forEach((image) => {
-    //         image.src = imageUrl;
-    //     });
-    // }
 }
 
 if (window.location.href.includes('https://dev.azure.com/')) {
