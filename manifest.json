@@ -4,13 +4,13 @@
   "version": "1.0",
   "description": "A Chrome extension that adds a GIF to the menubar on Azure DevOps pages.",
   "permissions": [
-    "storage"
+    "storage",
+    "tabs"
   ],
   "content_scripts": [
     {
-      "matches": ["https://dev.azure.com/*"],
-      "js": ["content.js"],
-      "run_at": "document_idle"
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
     }
   ],
   "action": {
