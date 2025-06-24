@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Azure Menubar Extension",
+  "name": "Add a Gif in Any Class Extension",
   "version": "2.0",
-  "description": "A Chrome extension that adds a GIF to the menubar on Azure DevOps pages.",
+  "description": "A Chrome extension that adds a GIF to all classes on Every page that you want.",
   "permissions": [
     "storage",
     "tabs"
