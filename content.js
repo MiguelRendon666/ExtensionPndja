@@ -28,9 +28,6 @@ function getImage() {
 }
 
 function getObjectFromStoredClasses(callback) {
-    const defaultClasses = {
-        "https://dev.azure.com" : ['[role="menubar"].custom-scrollbar']
-    }
     const baseURL = `${window.location.protocol}//${window.location.host}`;
     var returnedObject;
     
@@ -67,3 +64,20 @@ const observer = new MutationObserver(() => {
 });
 
 observer.observe(document.body, { childList: true, subtree: true });
+
+//====================================================================================================================================
+
+const defaultClasses = {
+  "https://chatgpt.com": ["#stage-sidebar-tiny-bar"],
+  "https://dev.azure.com": [
+    "[role=\"menubar\"].custom-scrollbar",
+    "[role=\"navigation\"] .custom-scrollbar"
+  ],
+  "https://github.com": ["ul.ActionListWrap[data-target=\"nav-list.topLevelList\"]"],
+  "https://web.whatsapp.com": [
+    "div.x1c4vz4f.xs83m0k.xdl72j9.x1g77sc7.x78zum5.xozq…euugli.x2lwn1j.x1nhvcw1.xdt5ytf.x1cy8zhl.x1277o0a"
+  ],
+  "https://www.wrike.com": [
+    "div.navigation-sidebar__sections-wrapper"
+  ]
+}

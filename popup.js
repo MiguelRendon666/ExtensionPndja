@@ -5,17 +5,29 @@ document.addEventListener('DOMContentLoaded', function () {
   // Botón para cargar imagen
   document.getElementById('open-azure-portal-button').addEventListener('click', function () {
     if (fileInput.files.length > 0) {
-      const file = fileInput.files[0];
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        const imageUrl = event.target.result;
-        chrome.storage.local.set({ 'azure-image': imageUrl }, function () {
-          if (statusText) {
-            statusText.textContent = 'Se ha cargado la imagen, por favor recarga la página de Azure DevOps.';
-          }
+      // Guardar imagen actual en historial antes de actualizar
+      chrome.storage.local.get(['azure-image', 'history-gif-images'], function (result) {
+        const prevImage = result['azure-image'];
+        let history = result['history-gif-images'] || [];
+        if (prevImage && !history.includes(prevImage)) {
+          history.unshift(prevImage); // Agrega al inicio si no está duplicada
+          if (history.length > 10) history = history.slice(0, 10);
+        }
+        chrome.storage.local.set({ 'history-gif-images': history }, function () {
+          // Ahora sigue el flujo normal
+          const file = fileInput.files[0];
+          const reader = new FileReader();
+          reader.onload = function (event) {
+            const imageUrl = event.target.result;
+            chrome.storage.local.set({ 'azure-image': imageUrl }, function () {
+              if (statusText) {
+                statusText.textContent = 'Se ha cargado la imagen, por favor recarga la página actual.';
+              }
+            });
+          };
+          reader.readAsDataURL(file);
         });
-      };
-      reader.readAsDataURL(file);
+      });
     } else {
       console.log('No se ha seleccionado ninguna imagen.');
     }
@@ -26,8 +38,20 @@ document.addEventListener('DOMContentLoaded', function () {
     chrome.storage.local.remove('azure-image', function () {
       console.log('Imagen eliminada de chrome.storage.local');
       if (statusText) {
-        statusText.textContent = 'Se ha eliminado la imagen, por favor recarga la página de Azure DevOps.';
+        statusText.textContent = 'Se ha eliminado la imagen, por favor recarga la página actual.';
       }
+    });
+  });
+
+  // Botón para resetear las clases e imagen.
+  document.getElementById('reset-gifs-button').addEventListener('click', function () {
+    chrome.storage.local.remove('azure-classes', function () {
+      chrome.storage.local.set({ 'azure-classes': defaultClasses }, function () {
+        if (statusText) {
+          console.log(defaultClasses);
+          statusText.textContent = 'Se ha reseteado la configuracion de clases por default, recargue la pagina para ver los cambios';
+        }
+      });
     });
   });
 
@@ -37,7 +61,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
     this.classList.add('active');
     document.getElementById('imagen').classList.add('active');
-    console.log('Tab 1 activada');
   });
 
   document.getElementById('change-gif-tab-2').addEventListener('click', function () {
@@ -45,10 +68,18 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
     this.classList.add('active');
     document.getElementById('config').classList.add('active');
-    console.log('Tab 2 activada');
+  });
+
+  document.getElementById('change-gif-tab-3').addEventListener('click', function () {
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById('history').classList.add('active');
   });
 
   setClassesList();
+  // Mostrar imágenes recientes en historial
+  mostrarImagenesRecientes();
 });
 
 function setClassesList() {
@@ -139,4 +170,62 @@ function deleteClass(baseURL, index) {
       });
     }
   });
+}
+
+function mostrarImagenesRecientes() {
+  const recentDiv = document.getElementById('insert-recent-gifs');
+  const statusText2 = document.getElementById('insert-status-text-2');
+  if (!recentDiv) return;
+  chrome.storage.local.get(['history-gif-images'], (result) => {
+    const images = result['history-gif-images'] || [];
+    recentDiv.innerHTML = '';
+    if (images.length === 0) {
+      const noImg = document.createElement('div');
+      noImg.textContent = 'No hay imágenes recientes.';
+      noImg.style.textAlign = 'center';
+      noImg.style.color = '#8ab4f8';
+      recentDiv.appendChild(noImg);
+      return;
+    }
+    recentDiv.style.display = 'flex';
+    recentDiv.style.flexWrap = 'wrap';
+    recentDiv.style.justifyContent = 'center';
+    images.forEach((imgUrl, idx) => {
+      const img = document.createElement('img');
+      img.src = imgUrl;
+      img.alt = `GIF reciente ${idx+1}`;
+      img.style.width = '30%';
+      img.style.aspectRatio = '1/1';
+      img.style.objectFit = 'cover';
+      img.style.margin = '1%';
+      img.style.borderRadius = '16px';
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', () => {
+        // Al hacer click, se cambia azure-image por esta imagen
+        chrome.storage.local.set({ 'azure-image': imgUrl }, function () {
+          if (statusText2) {
+            statusText2.textContent = 'Se ha cargado la imagen, por favor recarga la página actual.';
+          }
+        });
+      });
+      recentDiv.appendChild(img);
+    });
+  });
+}
+
+//====================================================================================================================================
+
+const defaultClasses = {
+  "https://chatgpt.com": ["#stage-sidebar-tiny-bar"],
+  "https://dev.azure.com": [
+    "[role=\"menubar\"].custom-scrollbar",
+    "[role=\"navigation\"] .custom-scrollbar"
+  ],
+  "https://github.com": ["ul.ActionListWrap[data-target=\"nav-list.topLevelList\"]"],
+  "https://web.whatsapp.com": [
+    "div.x1c4vz4f.xs83m0k.xdl72j9.x1g77sc7.x78zum5 div div"
+  ],
+  "https://www.wrike.com": [
+    "div.navigation-sidebar__sections-wrapper"
+  ]
 }

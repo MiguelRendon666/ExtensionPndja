@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Azure Menubar Extension",
-  "version": "1.0",
+  "version": "2.0",
   "description": "A Chrome extension that adds a GIF to the menubar on Azure DevOps pages.",
   "permissions": [
     "storage",
