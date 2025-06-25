@@ -220,3 +220,20 @@ function mostrarImagenesRecientes() {
     });
   });
 }
+
+//====================================================================================================================================
+
+const defaultClasses = {
+  "https://chatgpt.com": ["#stage-sidebar-tiny-bar"],
+  "https://dev.azure.com": [
+    "[role=\"menubar\"].custom-scrollbar",
+    "[role=\"navigation\"] .custom-scrollbar"
+  ],
+  "https://github.com": ["ul.ActionListWrap[data-target=\"nav-list.topLevelList\"]"],
+  "https://web.whatsapp.com": [
+    "div.x1c4vz4f.xs83m0k.xdl72j9.x1g77sc7.x78zum5 div div"
+  ],
+  "https://www.wrike.com": [
+    "div.navigation-sidebar__sections-wrapper"
+  ]
+}
