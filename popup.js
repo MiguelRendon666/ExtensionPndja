@@ -201,31 +201,22 @@ function mostrarImagenesRecientes() {
       img.style.borderRadius = '16px';
       img.style.cursor = 'pointer';
       img.addEventListener('click', () => {
-        // Al hacer click, se cambia azure-image por esta imagen
-        chrome.storage.local.set({ 'azure-image': imgUrl }, function () {
-          if (statusText2) {
-            statusText2.textContent = 'Se ha cargado la imagen, por favor recarga la página actual.';
+        // Al hacer click, guarda la imagen actual en historial (sin duplicados) y luego cambia azure-image
+        chrome.storage.local.get(['azure-image', 'history-gif-images'], function (result) {
+          const prevImage = result['azure-image'];
+          let history = result['history-gif-images'] || [];
+          if (prevImage && !history.includes(prevImage)) {
+            history.unshift(prevImage);
+            if (history.length > 10) history = history.slice(0, 10);
           }
+          chrome.storage.local.set({ 'azure-image': imgUrl, 'history-gif-images': history }, function () {
+            if (statusText2) {
+              statusText2.textContent = 'Se ha cargado la imagen, por favor recarga la página actual.';
+            }
+          });
         });
       });
       recentDiv.appendChild(img);
     });
   });
-}
-
-//====================================================================================================================================
-
-const defaultClasses = {
-  "https://chatgpt.com": ["#stage-sidebar-tiny-bar"],
-  "https://dev.azure.com": [
-    "[role=\"menubar\"].custom-scrollbar",
-    "[role=\"navigation\"] .custom-scrollbar"
-  ],
-  "https://github.com": ["ul.ActionListWrap[data-target=\"nav-list.topLevelList\"]"],
-  "https://web.whatsapp.com": [
-    "div.x1c4vz4f.xs83m0k.xdl72j9.x1g77sc7.x78zum5 div div"
-  ],
-  "https://www.wrike.com": [
-    "div.navigation-sidebar__sections-wrapper"
-  ]
 }
