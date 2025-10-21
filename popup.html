@@ -1,41 +1,97 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Azure Menubar Extension</title>
-  <link rel="stylesheet" href="popup.css">
-</head>
-<body>
-  <div class="main-container">
-    <div class="tabs">
-      <button class="tab active" id="change-gif-tab-1">Imagen</button>
-      <button class="tab" id="change-gif-tab-3">Historial</button>
-      <button class="tab" id="change-gif-tab-2">Config</button>
-    </div>
-    <div id="imagen" class="tab-content active">
-      <div class="title">Azure Menubar Extension</div>
-      <div class="file-input">
-        <input type="file" id="gif-input" accept="image/gif">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Azure Menubar Extension</title>
+    <link
+      rel="stylesheet"
+      href="popup.css"
+    />
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="tabs">
+        <button
+          class="tab active"
+          id="change-gif-tab-1"
+        >
+          Imagen
+        </button>
+        <button
+          class="tab"
+          id="change-gif-tab-3"
+        >
+          Historial
+        </button>
+        <button
+          class="tab"
+          id="change-gif-tab-2"
+        >
+          Config
+        </button>
       </div>
-      <button id="open-azure-portal-button" class="custom-btn">Actualiza Imagen</button>
-      <button id="clear-azure-portal-button" class="custom-btn">Borra Imagen</button>
-      <button id="reset-gifs-button" class="custom-btn">Reestablecer a Default</button>
-      <div id="azure-bar-status-text" class="footer">Hola</div>
-    </div>
+      <div
+        id="imagen"
+        class="tab-content active"
+      >
+        <div class="title">Azure Menubar Extension</div>
+        <div class="file-input">
+          <input
+            type="file"
+            id="gif-input"
+            accept="image/gif"
+          />
+        </div>
+        <button
+          id="open-azure-portal-button"
+          class="custom-btn"
+        >
+          Actualiza Imagen
+        </button>
+        <button
+          id="clear-azure-portal-button"
+          class="custom-btn"
+        >
+          Borra Imagen
+        </button>
+        <button
+          id="reset-gifs-button"
+          class="custom-btn"
+        >
+          Reestablecer a Default
+        </button>
+        <div
+          id="azure-bar-status-text"
+          class="footer"
+        >
+          Hola
+        </div>
+      </div>
 
-    <div id="history" class="tab-content">
-      <div class="title">Historial</div>
+      <div
+        id="history"
+        class="tab-content"
+      >
+        <div class="title">Historial</div>
 
-      <hr>
-      <div id="insert-recent-gifs"></div>
-      <hr>
-      <div id="insert-status-text-2" class="footer">Hola</div>
-    </div>
+        <hr />
+        <div id="insert-recent-gifs"></div>
+        <hr />
+        <div
+          id="insert-status-text-2"
+          class="footer"
+        >
+          Hola
+        </div>
+      </div>
 
-    <div id="config" class="tab-content">
-      <div class="title">Configuración</div>
+      <div
+        id="config"
+        class="tab-content"
+      >
+        <div class="title">Configuración</div>
 
-      <!-- <div style="text-align: center; margin-bottom: 14px;">
+        <!-- <div style="text-align: center; margin-bottom: 14px;">
         <label for="replace-object-checkbox" style="display: inline-flex; align-items: center; gap: 10px; cursor: pointer;">
           <span style="color:#8ab4f8; font-weight: 500;">Sustituye objeto:</span>
           <div class="switch">
@@ -45,15 +101,41 @@
         </label>
       </div> -->
 
-      <hr>
+        <hr />
 
-      <div class="title" id="configuration-page-title"></div>
-      <div id="insert-query-lists" style="height: 300px; max-height: 300px; overflow-y: scroll;">
+        <div
+          class="title"
+          id="configuration-page-title"
+        ></div>
+        <div
+          id="insert-query-lists"
+          style="height: 140px; max-height: 140px; overflow-y: scroll"
+        ></div>
+        <hr />
+        <div class="title">Selecciones en esta página</div>
+        <div style="margin-bottom: 6px">
+          <button
+            id="start-selection-button"
+            class="custom-btn"
+          >
+            Seleccionar elemento
+          </button>
+        </div>
+        <div
+          id="selections-list"
+          style="height: 140px; max-height: 140px; overflow-y: auto"
+        ></div>
       </div>
     </div>
-  </div>
 
-  <script src="popup.js" defer></script>
-  <script type="module" src="content.js" defer></script>
-</body>
+    <script
+      src="popup.js"
+      defer
+    ></script>
+    <script
+      type="module"
+      src="content.js"
+      defer
+    ></script>
+  </body>
 </html>
